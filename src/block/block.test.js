@@ -45,7 +45,7 @@ const testBlockDataStructure = block =>
   typeof block.data === "string";
 
 const testGenesisBlockStructure = genesis =>
-  typeof genesis.timestamp === "number" &&
+  genesis.timestamp === null &&
   typeof genesis.hash === "string" &&
   genesis.lastHash === null &&
   typeof genesis.data === "string";

@@ -20,7 +20,7 @@ class Block {
   }
 
   static genesis() {
-    const timestamp = Date.now();
+    const timestamp = null;
     const lastHash = null;
     const data = "Genesis";
     const hash = Block.hash(timestamp, lastHash, data);
