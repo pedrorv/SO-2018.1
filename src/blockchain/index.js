@@ -1,4 +1,4 @@
-const Block = require("../block");
+const Block = require('../block');
 
 class Blockchain {
   constructor() {
@@ -35,16 +35,16 @@ class Blockchain {
 
   replaceChain(newChain) {
     if (newChain.length <= this.chain.length) {
-      console.log("A nova blockchain não é maior que a blockchain atual.");
+      console.log('A nova blockchain não é maior que a blockchain atual.');
       return;
     }
 
     if (!this.isChainValid(newChain)) {
-      console.log("A nova blockchain não é válida.");
+      console.log('A nova blockchain não é válida.');
       return;
     }
 
-    console.log("Substituindo a blockchain atual pela nova blockchain.");
+    console.log('Substituindo a blockchain atual pela nova blockchain.');
     this.chain = newChain;
   }
 }

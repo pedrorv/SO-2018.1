@@ -1,4 +1,4 @@
-const sha256 = require("crypto-js/sha256");
+const sha256 = require('crypto-js/sha256');
 
 class Block {
   constructor(timestamp, lastHash, hash, data) {
@@ -22,7 +22,7 @@ class Block {
   static genesis() {
     const timestamp = null;
     const lastHash = null;
-    const data = "Genesis";
+    const data = 'Genesis';
     const hash = Block.hash(timestamp, lastHash, data);
 
     return new Block(timestamp, lastHash, hash, data);
