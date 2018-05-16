@@ -1,4 +1,5 @@
 const Block = require('../block');
+const { BASE_DIFFICULTY } = require('../contants');
 
 describe('Classe Block', () => {
   let data;
@@ -38,16 +39,27 @@ describe('Classe Block', () => {
       expect(block.lastHash).toEqual(lastBlock.hash);
     });
   });
+
+  describe('método hashHasRightDifficulty', () => {
+    it('dada uma hash deve verificar se a mesma possui a dificuldade correta', () => {
+      expect(Block.hashHasRightDifficulty('000ab123a1298abfe', 3)).toBe(true);
+      expect(Block.hashHasRightDifficulty('000ab123a1298abfe', 4)).toBe(false);
+    });
+  });
 });
 
 const testBlockDataStructure = block =>
   typeof block.timestamp === 'number' &&
-  typeof block.hash === 'string' &&
   typeof block.lastHash === 'string' &&
-  typeof block.data === 'string';
+  typeof block.hash === 'string' &&
+  typeof block.data === 'string' &&
+  typeof block.difficulty === 'number' &&
+  typeof block.nonce === 'number';
 
 const testGenesisBlockDataStructure = genesis =>
   genesis.timestamp === null &&
-  typeof genesis.hash === 'string' &&
   genesis.lastHash === null &&
-  typeof genesis.data === 'string';
+  typeof genesis.hash === 'string' &&
+  typeof genesis.data === 'string' &&
+  genesis.difficulty === BASE_DIFFICULTY &&
+  genesis.nonce === 0;
