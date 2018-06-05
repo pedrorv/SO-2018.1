@@ -8,6 +8,7 @@
     "no-use-before-define": "off",
     "no-nested-ternary": "off",
     "no-mixed-operators": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }

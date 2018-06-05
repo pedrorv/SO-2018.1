@@ -1,8 +1,7 @@
 const express = require('express');
-const Blockchain = require('./blockchain');
+const blockchain = require('./serverBlockchain');
 
 const router = express.Router();
-const blockchain = new Blockchain();
 
 router.get('/blocos', (req, res) => {
   res.json(blockchain.chain);
