@@ -16,14 +16,14 @@ class Transaction {
       return null;
     }
 
-    const sender = {
+    const senderOutput = {
       amount: senderWallet.balance - amount,
       address: senderWallet.publicKey,
     };
-    const receiver = { amount, address: recipient };
+    const recipientOutput = { amount, address: recipient };
 
-    transaction.outputs.push(sender);
-    transaction.outputs.push(receiver);
+    transaction.outputs.push(senderOutput);
+    transaction.outputs.push(recipientOutput);
 
     return transaction;
   }
