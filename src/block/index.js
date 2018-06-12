@@ -47,13 +47,14 @@ class Block {
 
   static mine(lastBlock, data) {
     const { hash: lastHash } = lastBlock;
-    const timestamp = Date.now();
     let nonce = 0;
     let difficulty;
     let hash;
+    let timestamp;
 
     do {
       nonce += 1;
+      timestamp = Date.now();
       difficulty = Block.getBlockDifficulty(lastBlock, timestamp);
       hash = Block.hash(timestamp, lastHash, data, difficulty, nonce);
     } while (!Block.hashHasRightDifficulty(hash, difficulty));
