@@ -1,6 +1,6 @@
 const WS = require('ws');
 
-const peers = [];
+const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 class P2PServer {
   constructor(blockchain) {

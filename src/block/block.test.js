@@ -1,5 +1,5 @@
 const Block = require('../block');
-const { BASE_DIFFICULTY } = require('../contants');
+const { BASE_DIFFICULTY } = require('../constants');
 
 describe('Classe Block', () => {
   let data;
