@@ -16,3 +16,8 @@ app.use('/blockchain', blockchainRouter);
 
 app.listen(HTTP_PORT, console.log(`Servidor rodando na porta ${HTTP_PORT}`));
 p2p.listen(P2P_PORT, console.log(`Servidor p2p rodando na porta ${P2P_PORT}`));
+
+module.exports = {
+  app,
+  p2p,
+};
