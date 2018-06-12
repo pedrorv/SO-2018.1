@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const blockchainRouter = require('./router');
+const configBlockchainRouter = require('./router');
 const config = require('./config');
 const P2PServer = require('./p2p-server');
 const blockchain = require('./serverBlockchain');
@@ -12,12 +12,7 @@ const app = express();
 const p2p = new P2PServer(blockchain);
 
 app.use(bodyParser.json());
-app.use('/blockchain', blockchainRouter);
+app.use('/blockchain', configBlockchainRouter(p2p));
 
 app.listen(HTTP_PORT, console.log(`Servidor rodando na porta ${HTTP_PORT}`));
 p2p.listen(P2P_PORT, console.log(`Servidor p2p rodando na porta ${P2P_PORT}`));
-
-module.exports = {
-  app,
-  p2p,
-};
