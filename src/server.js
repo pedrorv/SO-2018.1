@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const appRouter = require('./router');
 const config = require('./config');
 const P2PServer = require('./p2p-server');
-const { blockchain } = require('./instances');
+const { blockchain, transactionPool } = require('./instances');
 
 const HTTP_PORT = process.env.HTTP_PORT || config.HTTP_PORT;
 const P2P_PORT = process.env.P2P_PORT || config.P2P_PORT;
 
 const app = express();
-const p2p = new P2PServer(blockchain);
+const p2p = new P2PServer(blockchain, transactionPool);
 
 app.use(bodyParser.json());
 app.use(appRouter(p2p));

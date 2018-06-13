@@ -22,7 +22,8 @@ module.exports = (p2p) => {
 
   router.post('/transacao', (req, res) => {
     const { recipient, amount } = req.body;
-    wallet.createTransaction(recipient, amount, transactionPool);
+    const transaction = wallet.createTransaction(recipient, amount, transactionPool);
+    p2p.broadcastTransaction(transaction);
 
     res.redirect('/transacoes');
   });
