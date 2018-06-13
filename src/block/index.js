@@ -1,4 +1,4 @@
-const sha256 = require('crypto-js/sha256');
+const { hashData } = require('../utilities');
 const { BASE_DIFFICULTY, MINE_RATE } = require('../constants');
 
 class Block {
@@ -42,7 +42,7 @@ class Block {
   }
 
   static hash(timestamp, lastHash, data, difficulty, nonce) {
-    return sha256(`${timestamp}-${lastHash}-${data}-${difficulty}-${nonce}`).toString();
+    return hashData(`${timestamp}-${lastHash}-${data}-${difficulty}-${nonce}`);
   }
 
   static mine(lastBlock, data) {

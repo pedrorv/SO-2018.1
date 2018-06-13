@@ -26,5 +26,8 @@
     "eslint-plugin-import": "^2.11.0",
     "jest": "^22.4.3",
     "nodemon": "^1.17.5"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

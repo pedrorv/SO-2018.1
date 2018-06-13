@@ -16,6 +16,10 @@ class Wallet {
       Saldo:         ${this.balance}
     `;
   }
+
+  sign(hashFromData) {
+    return this.keyPair.sign(hashFromData);
+  }
 }
 
 module.exports = Wallet;
