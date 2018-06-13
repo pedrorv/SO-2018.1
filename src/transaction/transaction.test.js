@@ -51,6 +51,44 @@ describe('Classe Transaction', () => {
       expect(transaction.input.signature).toEqual(wallet.sign(hashData(transaction.outputs)));
     });
   });
+
+  describe('método update', () => {
+    let transaction;
+    let nextAmount;
+    let nextRecipient;
+
+    beforeEach(() => {
+      transaction = Transaction.create(wallet, recipient, amount);
+      nextAmount = amount * 2;
+      nextRecipient = `próximo ${recipient}`;
+      transaction = transaction.update(wallet, nextRecipient, nextAmount);
+    });
+
+    it('atualiza a saída da transação subtraindo a próxima quantia da carteira criadora da transação', () => {
+      expect(transaction.outputs.find(o => o.address === wallet.publicKey).amount).toEqual(wallet.balance - amount - nextAmount);
+    });
+
+    it('adiciona às saídas da transação a próxima quantia enviada ao próximo destinatário', () => {
+      expect(transaction.outputs.find(o => o.address === nextRecipient).amount).toEqual(nextAmount);
+    });
+  });
+
+  describe('método isTransactionValid', () => {
+    let transaction;
+
+    beforeEach(() => {
+      transaction = Transaction.create(wallet, recipient, amount);
+    });
+
+    it('valida uma transação válida', () => {
+      expect(Transaction.isTransactionValid(transaction)).toBe(true);
+    });
+
+    it('invalida uma transação que foi alterada', () => {
+      transaction.outputs[0].amount = amount * 5;
+      expect(Transaction.isTransactionValid(transaction)).toBe(false);
+    });
+  });
 });
 
 const testTransactionDataStructure = transaction =>
