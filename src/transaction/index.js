@@ -1,8 +1,9 @@
-const { genUniqueId } = require('../utilities');
+const { genUniqueId, hashData } = require('../utilities');
 
 class Transaction {
   constructor() {
     this.id = genUniqueId();
+    this.input = null;
     this.outputs = [];
   }
 
@@ -25,7 +26,18 @@ class Transaction {
     transaction.outputs.push(senderOutput);
     transaction.outputs.push(recipientOutput);
 
+    Transaction.sign(transaction, senderWallet);
+
     return transaction;
+  }
+
+  static sign(transaction, senderWallet) {
+    transaction.input = {
+      timestamp: Date.now(),
+      amount: senderWallet.balance,
+      address: senderWallet.publicKey,
+      signature: senderWallet.sign(hashData(transaction.outputs)),
+    };
   }
 }
 
