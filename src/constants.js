@@ -4,9 +4,11 @@ const MINUTE = 60 * SECOND;
 const BASE_DIFFICULTY = 3;
 const MINE_RATE = 30 * SECOND;
 const INITIAL_BALANCE = 1000;
+const MINING_REWARD = 10;
 
 module.exports = {
   BASE_DIFFICULTY,
   MINE_RATE,
   INITIAL_BALANCE,
+  MINING_REWARD,
 };

@@ -1,3 +1,4 @@
+const { MINING_REWARD } = require('../constants');
 const { genUniqueId, hashData, isSignatureValid } = require('../utilities');
 
 class Transaction {
@@ -26,8 +27,6 @@ class Transaction {
   }
 
   static create(senderWallet, recipient, amount) {
-    const transaction = new Transaction();
-
     if (amount > senderWallet.balance) {
       console.log(`Valor da transação excede o saldo da carteira. Saldo: ${
         senderWallet.balance
@@ -41,12 +40,7 @@ class Transaction {
     };
     const recipientOutput = { amount, address: recipient };
 
-    transaction.outputs.push(senderOutput);
-    transaction.outputs.push(recipientOutput);
-
-    Transaction.sign(transaction, senderWallet);
-
-    return transaction;
+    return this.getWithOutputs(senderWallet, [senderOutput, recipientOutput]);
   }
 
   static sign(transaction, senderWallet) {
@@ -58,10 +52,27 @@ class Transaction {
     };
   }
 
+  static reward(minerWallet, rewardSystemWallet) {
+    const rewardOutput = {
+      amount: MINING_REWARD,
+      address: minerWallet.publicKey,
+    };
+
+    return this.getWithOutputs(rewardSystemWallet, [rewardOutput]);
+  }
+
   static isTransactionValid(transaction) {
     const { address, signature } = transaction.input;
 
     return isSignatureValid(address, signature, hashData(transaction.outputs));
+  }
+
+  static getWithOutputs(senderWallet, outputs) {
+    const transaction = new Transaction();
+    transaction.outputs.push(...outputs);
+    Transaction.sign(transaction, senderWallet);
+
+    return transaction;
   }
 }
 

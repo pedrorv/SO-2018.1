@@ -2,16 +2,23 @@ const WS = require('ws');
 
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
-const MESSAGES = { SYNC_CHAINS: 'SYNC_CHAINS', BROADCAST_TRANSACTION: 'BROADCAST_TRANSACTION' };
+const MESSAGES = {
+  SYNC_CHAINS: 'SYNC_CHAINS',
+  BROADCAST_TRANSACTION: 'BROADCAST_TRANSACTION',
+  CLEAR_TRANSACTIONS: 'CLEAR_TRANSACTIONS',
+};
 
 const syncChainsMessage = data => ({
   type: MESSAGES.SYNC_CHAINS,
   data,
 });
+
 const broadcastTransactionMessage = data => ({
   type: MESSAGES.BROADCAST_TRANSACTION,
   data,
 });
+
+const broadcastClearTransactionsMessage = () => ({ type: MESSAGES.CLEAR_TRANSACTIONS });
 
 class P2PServer {
   constructor(blockchain, transactionPool) {
@@ -49,6 +56,8 @@ class P2PServer {
           return this.blockchain.replaceChain(data);
         case MESSAGES.BROADCAST_TRANSACTION:
           return this.transactionPool.addOrUpdateTransaction(data);
+        case MESSAGES.CLEAR_TRANSACTIONS:
+          return this.transactionPool.clear();
         default:
           return null;
       }
@@ -73,6 +82,11 @@ class P2PServer {
 
   broadcastTransaction(transaction) {
     this.sockets.forEach(socket => this.sendTransaction(socket, transaction));
+  }
+
+  broadcastClearTransactions() {
+    this.sockets.forEach(socket =>
+      this.dispatchMessage(socket, broadcastClearTransactionsMessage()));
   }
 }
 
