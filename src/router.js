@@ -1,5 +1,5 @@
 const express = require('express');
-const blockchain = require('./serverBlockchain');
+const { blockchain, wallet, transactionPool } = require('./instances');
 
 module.exports = (p2p) => {
   const router = express.Router();
@@ -14,6 +14,22 @@ module.exports = (p2p) => {
     p2p.syncChains();
 
     res.redirect('blocos');
+  });
+
+  router.get('/transacoes', (req, res) => {
+    res.json(transactionPool.transactions);
+  });
+
+  router.post('/transacao', (req, res) => {
+    const { recipient, amount } = req.body;
+    const transaction = wallet.createTransaction(recipient, amount, transactionPool);
+    p2p.broadcastTransaction(transaction);
+
+    res.redirect('/transacoes');
+  });
+
+  router.get('/chave-publica', (req, res) => {
+    res.json({ publicKey: wallet.publicKey });
   });
 
   return router;

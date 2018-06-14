@@ -2,10 +2,22 @@ const WS = require('ws');
 
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
+const MESSAGES = { SYNC_CHAINS: 'SYNC_CHAINS', BROADCAST_TRANSACTION: 'BROADCAST_TRANSACTION' };
+
+const syncChainsMessage = data => ({
+  type: MESSAGES.SYNC_CHAINS,
+  data,
+});
+const broadcastTransactionMessage = data => ({
+  type: MESSAGES.BROADCAST_TRANSACTION,
+  data,
+});
+
 class P2PServer {
-  constructor(blockchain) {
+  constructor(blockchain, transactionPool) {
     this.blockchain = blockchain;
     this.sockets = [];
+    this.transactionPool = transactionPool;
   }
 
   listen(port, callback) {
@@ -30,17 +42,37 @@ class P2PServer {
 
   handleMessages(socket) {
     socket.on('message', (message) => {
-      const chain = JSON.parse(message);
-      this.blockchain.replaceChain(chain);
+      const { type, data } = JSON.parse(message);
+
+      switch (type) {
+        case MESSAGES.SYNC_CHAINS:
+          return this.blockchain.replaceChain(data);
+        case MESSAGES.BROADCAST_TRANSACTION:
+          return this.transactionPool.addOrUpdateTransaction(data);
+        default:
+          return null;
+      }
     });
   }
 
+  dispatchMessage(socket, message) {
+    socket.send(JSON.stringify(message));
+  }
+
   sendChain(socket) {
-    socket.send(JSON.stringify(this.blockchain.chain));
+    this.dispatchMessage(socket, syncChainsMessage(this.blockchain.chain));
+  }
+
+  sendTransaction(socket, transaction) {
+    this.dispatchMessage(socket, broadcastTransactionMessage(transaction));
   }
 
   syncChains() {
     this.sockets.forEach(socket => this.sendChain(socket));
+  }
+
+  broadcastTransaction(transaction) {
+    this.sockets.forEach(socket => this.sendTransaction(socket, transaction));
   }
 }
 
