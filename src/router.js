@@ -1,7 +1,7 @@
 const express = require('express');
 const { blockchain, wallet, transactionPool } = require('./instances');
 
-module.exports = (p2p) => {
+module.exports = (p2p, miner) => {
   const router = express.Router();
 
   router.get('/blocos', (req, res) => {
@@ -30,6 +30,12 @@ module.exports = (p2p) => {
 
   router.get('/chave-publica', (req, res) => {
     res.json({ publicKey: wallet.publicKey });
+  });
+
+  router.get('/minerar-transacoes', (req, res) => {
+    miner.mine();
+
+    res.redirect('/blocos');
   });
 
   return router;

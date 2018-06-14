@@ -1,6 +1,7 @@
 const Transaction = require('../transaction');
 const Wallet = require('../wallet');
 const { hashData } = require('../utilities');
+const { MINING_REWARD } = require('../constants');
 
 describe('Classe Transaction', () => {
   let wallet;
@@ -87,6 +88,19 @@ describe('Classe Transaction', () => {
     it('invalida uma transação que foi alterada', () => {
       transaction.outputs[0].amount = amount * 5;
       expect(Transaction.isTransactionValid(transaction)).toBe(false);
+    });
+  });
+
+  describe('método reward', () => {
+    let transaction;
+
+    beforeEach(() => {
+      transaction = Transaction.reward(wallet, Wallet.rewardWallet());
+    });
+
+    it('cria uma transação de recompensa para uma carteira', () => {
+      expect(Transaction.isTransactionValid(transaction)).toBe(true);
+      expect(transaction.outputs.find(o => o.address === wallet.publicKey).amount).toEqual(MINING_REWARD);
     });
   });
 });

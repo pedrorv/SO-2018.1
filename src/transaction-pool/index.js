@@ -1,3 +1,5 @@
+const Transaction = require('../transaction');
+
 class TransactionPool {
   constructor() {
     this.transactions = [];
@@ -11,6 +13,32 @@ class TransactionPool {
     } else {
       this.transactions.push(transaction);
     }
+  }
+
+  clear() {
+    this.transactions = [];
+  }
+
+  getValidTransactions() {
+    return this.transactions.filter((t) => {
+      const outputTotal = t.outputs.reduce((acc, cur) => acc + cur.amount, 0);
+
+      if (t.input.amount !== outputTotal) {
+        console.log(`Transação inválida da carteira ${
+          t.input.address
+        }. Total das saídas não bate com entrada. Saídas: ${outputTotal}; Entrada: ${
+          t.input.amount
+        }.`);
+        return null;
+      }
+
+      if (!Transaction.isTransactionValid(t)) {
+        console.log(`Transação inválida da carteira ${t.input.address}.`);
+        return null;
+      }
+
+      return t;
+    });
   }
 
   findTransactionIndex(transaction) {

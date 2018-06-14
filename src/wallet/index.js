@@ -1,6 +1,6 @@
 const Transaction = require('../transaction');
 const { genKeyPair } = require('../utilities');
-const { INITIAL_BALANCE } = require('../constants');
+const { INITIAL_BALANCE, MINING_REWARD } = require('../constants');
 
 class Wallet {
   constructor() {
@@ -38,6 +38,13 @@ class Wallet {
     }
 
     return transaction;
+  }
+
+  static rewardWallet() {
+    const rewardWallet = new Wallet();
+    rewardWallet.balance = MINING_REWARD;
+
+    return rewardWallet;
   }
 }
 
