@@ -44,7 +44,6 @@ class Wallet {
 
   getBalance(blockchain) {
     let { balance } = this;
-    console.log(blockchain);
     const transactions = blockchain.chain.reduce((acc, block) => [...acc, ...block.data], []);
     const walletInputs = transactions.filter(t => t.input.address === this.publicKey);
     let mostRecentTimestamp = 0;
