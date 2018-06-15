@@ -60,6 +60,6 @@ const testGenesisBlockDataStructure = genesis =>
   genesis.timestamp === null &&
   genesis.lastHash === null &&
   typeof genesis.hash === 'string' &&
-  typeof genesis.data === 'string' &&
+  Array.isArray(genesis.data) &&
   genesis.difficulty === BASE_DIFFICULTY &&
   genesis.nonce === 0;

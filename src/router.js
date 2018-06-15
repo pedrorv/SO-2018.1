@@ -8,21 +8,13 @@ module.exports = (p2p, miner) => {
     res.json(blockchain.chain);
   });
 
-  router.post('/minerar', (req, res) => {
-    blockchain.addBlock(req.body.data);
-
-    p2p.syncChains();
-
-    res.redirect('blocos');
-  });
-
   router.get('/transacoes', (req, res) => {
     res.json(transactionPool.transactions);
   });
 
   router.post('/transacao', (req, res) => {
     const { recipient, amount } = req.body;
-    const transaction = wallet.createTransaction(recipient, amount, transactionPool);
+    const transaction = wallet.createTransaction(recipient, amount, blockchain, transactionPool);
     p2p.broadcastTransaction(transaction);
 
     res.redirect('/transacoes');
@@ -30,6 +22,10 @@ module.exports = (p2p, miner) => {
 
   router.get('/chave-publica', (req, res) => {
     res.json({ publicKey: wallet.publicKey });
+  });
+
+  router.get('/saldo', (req, res) => {
+    res.json({ balance: wallet.getBalance(blockchain) });
   });
 
   router.get('/minerar-transacoes', (req, res) => {

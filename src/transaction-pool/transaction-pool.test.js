@@ -1,5 +1,6 @@
 const TransactionPool = require('../transaction-pool');
 const Wallet = require('../wallet');
+const Blockchain = require('../blockchain');
 
 describe('Classe TransactionPool', () => {
   describe('construtor', () => {
@@ -12,13 +13,15 @@ describe('Classe TransactionPool', () => {
   let tp;
   let wallet;
   let transaction;
+  let bc;
   const recipient = 'destinatário';
   const amount = 10;
 
   beforeEach(() => {
     tp = new TransactionPool();
     wallet = new Wallet();
-    transaction = wallet.createTransaction(recipient, amount, tp);
+    bc = new Blockchain();
+    transaction = wallet.createTransaction(recipient, amount, bc, tp);
     tp.addOrUpdateTransaction(transaction);
   });
 
@@ -55,7 +58,7 @@ describe('Classe TransactionPool', () => {
 
       while (createTransactions) {
         wallet = new Wallet();
-        transaction = wallet.createTransaction(recipient, amount, tp);
+        transaction = wallet.createTransaction(recipient, amount, bc, tp);
 
         if (createTransactions % 2 === 0) {
           transaction.input.amount = 1000000;

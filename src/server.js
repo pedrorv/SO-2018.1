@@ -16,5 +16,5 @@ const miner = new Miner(blockchain, transactionPool, wallet, p2p);
 app.use(bodyParser.json());
 app.use(appRouter(p2p, miner));
 
-app.listen(HTTP_PORT, console.log(`Servidor rodando na porta ${HTTP_PORT}`));
+app.listen(HTTP_PORT, console.log(`Servidor http rodando na porta ${HTTP_PORT}`));
 p2p.listen(P2P_PORT, console.log(`Servidor p2p rodando na porta ${P2P_PORT}`));
