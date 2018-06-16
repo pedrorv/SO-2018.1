@@ -41,7 +41,11 @@ class Wallet {
 
     if (amount > this.balance) {
       console.log(`Valor da transação excede o saldo da carteira. Saldo: ${this.balance}; Valor: ${amount}.`);
-      return null;
+      return {
+        message: `Valor da transação excede o saldo da carteira. Saldo: ${
+          this.balance
+        }; Valor: ${amount}.`,
+      };
     }
 
     let transaction = transactionPool.findTransactionByAddress(this.publicKey);
