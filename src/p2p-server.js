@@ -27,8 +27,8 @@ class P2PServer {
     this.transactionPool = transactionPool;
   }
 
-  listen(port, callback) {
-    const server = new WS.Server({ port }, callback);
+  listen(port, host, callback) {
+    const server = new WS.Server({ port, host }, callback);
 
     server.on('connection', socket => this.connectSocket(socket));
     this.connectToPeers();

@@ -1,12 +1,26 @@
+const fs = require('fs');
 const Transaction = require('../transaction');
-const { genKeyPair } = require('../utilities');
+const { genKeyPair, isProduction, genKeyPairFromPrivate } = require('../utilities');
 const { INITIAL_BALANCE, MINING_REWARD } = require('../constants');
+
+const KEY_PATH = './src/wallet/wallet.json';
 
 class Wallet {
   constructor() {
+    let privateKey;
+
+    if (isProduction() && fs.existsSync(KEY_PATH)) {
+      privateKey = JSON.parse(fs.readFileSync(KEY_PATH)).key;
+    }
+
     this.balance = INITIAL_BALANCE;
-    this.keyPair = genKeyPair();
+    this.keyPair = privateKey ? genKeyPairFromPrivate(privateKey) : genKeyPair();
     this.publicKey = this.keyPair.getPublic().encode('hex');
+
+    if (isProduction() && !privateKey) {
+      const wallet = JSON.stringify({ key: this.keyPair.getPrivate().toString(16) });
+      fs.writeFileSync(KEY_PATH, wallet);
+    }
   }
 
   toString() {

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prod": "HTTP_PORT=1116 P2P_PORT=2316 HOST=0.0.0.0 NODE_ENV=production node ./src/server.js",
     "start-dev": "concurrently \"npm run dev\" \"npm run dev2\" \"npm run dev3\"",
     "dev": "nodemon ./src/server.js",
     "dev2": "HTTP_PORT=5001 P2P_PORT=6001 PEERS=ws://localhost:6000 npm run dev",

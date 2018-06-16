@@ -8,8 +8,18 @@ module.exports = (p2p, miner) => {
     res.json(blockchain.chain);
   });
 
+  router.get('/blocos/:hash', (req, res) => {
+    const block = blockchain.chain.find(b => b.hash === req.params.hash);
+    res.json(block || { message: 'Bloco não encontrado.' });
+  });
+
   router.get('/transacoes', (req, res) => {
     res.json(transactionPool.transactions);
+  });
+
+  router.get('/transacoes/:id', (req, res) => {
+    const transaction = transactionPool.transactions.find(t => t.id === req.params.id);
+    res.json(transaction || { message: 'Transação não encontrada.' });
   });
 
   router.post('/transacao', (req, res) => {
