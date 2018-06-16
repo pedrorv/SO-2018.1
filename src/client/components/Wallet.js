@@ -16,7 +16,7 @@ class Wallet extends Component {
 
     Promise.all([APIService.getPublicKey(), APIService.getBalance()]).then(([keyData, balanceData]) => {
       const publicKey = keyData.message ? keyData.message : keyData.publicKey;
-      const balance = balanceData.message ? balanceData.message : balanceData.balance;
+      const balance = balanceData.message ? balanceData.message : `${balanceData.balance} moedas`;
 
       this.setState({ balance, publicKey, loading: false });
     });
@@ -27,7 +27,7 @@ class Wallet extends Component {
 
     return (
       <section>
-        <h1 className="has-text-grey-dark is-size-4">Carteira</h1>
+        <h1 className="has-text-grey-dark is-size-3">Carteira</h1>
         <main className="columns">
           <div className="column is-half">
             <h1 className="has-text-grey-dark is-size-4">Chave pública</h1>
@@ -37,8 +37,8 @@ class Wallet extends Component {
           </div>
           <div className="column is-half">
             <h1 className="has-text-grey-dark is-size-4">Saldo</h1>
-            <h2 className="has-text-grey-grey is-size-5">
-              {loading ? 'Carregando seu saldo...' : `${balance} moedas`}
+            <h2 className="has-text-grey-grey is-size-5" style={{ wordWrap: 'break-word' }}>
+              {loading ? 'Carregando seu saldo...' : balance}
             </h2>
           </div>
         </main>
