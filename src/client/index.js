@@ -8,6 +8,9 @@ const App = () => (
   <div>
     <Header />
     <div className="container">
+      <div className="is-flex" style={{ paddingTop: '15px' }}>
+        <img src="imgs/riocoin.png" alt="Rio Coin" style={{ margin: '0 auto' }} />
+      </div>
       <Wallet />
       <Transaction />
     </div>
