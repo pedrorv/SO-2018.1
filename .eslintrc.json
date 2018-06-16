@@ -1,8 +1,10 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "plugin:react/recommended"],
   "env": {
+    "browser": true,
     "jest": true
   },
+  "plugins": ["react"],
   "rules": {
     "no-console": "off",
     "no-use-before-define": "off",
@@ -11,5 +13,10 @@
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
     "no-param-reassign": "off"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
