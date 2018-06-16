@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prod": "webpack --mode production && HTTP_PORT=1116 P2P_PORT=2316 HOST=0.0.0.0 NODE_ENV=production node ./src/server.js",
-    "start-dev": "webpack --mode development && concurrently \"npm run dev\" \"npm run dev2\" \"npm run dev3\"",
-    "dev": "nodemon ./src/server.js",
+    "production": "webpack --mode production && HTTP_PORT=1116 P2P_PORT=2316 HOST=0.0.0.0 NODE_ENV=production node ./src/server.js",
+    "development": "concurrently \"webpack --mode development --watch\" \"npm run dev1\"",
+    "dev-network": "webpack --mode development && concurrently \"npm run dev1\" \"npm run dev2\" \"npm run dev3\"",
+    "dev1": "nodemon ./src/server.js",
     "dev2": "HTTP_PORT=5001 P2P_PORT=6001 PEERS=ws://localhost:6000 npm run dev",
     "dev3": "HTTP_PORT=5002 P2P_PORT=6002 PEERS=ws://localhost:6000,ws://localhost:6001 npm run dev",
     "test": "jest --watchAll"
