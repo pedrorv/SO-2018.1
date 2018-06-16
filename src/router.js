@@ -25,6 +25,12 @@ module.exports = (p2p, miner) => {
   router.post('/transacao', (req, res) => {
     const { recipient, amount } = req.body;
     const transaction = wallet.createTransaction(recipient, amount, blockchain, transactionPool);
+
+    if (transaction.message) {
+      res.json(transaction);
+      return;
+    }
+
     p2p.broadcastTransaction(transaction);
 
     res.redirect('/transacoes');

@@ -25,6 +25,13 @@ class APIService {
       .catch(() =>
         Promise.resolve({ message: 'Ocorreu um erro inesperado ao carregar sua chave pública.' }));
   }
+
+  makeTransaction(recipient, amount) {
+    return this.call('transacao', 'POST', { recipient, amount }, { timeout: 5000 })
+      .then(res => res.data)
+      .catch(() =>
+        Promise.resolve({ message: 'Ocorreu um erro inesperado ao realizar a transação.' }));
+  }
 }
 
 export default new APIService();
