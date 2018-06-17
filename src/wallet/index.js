@@ -37,8 +37,15 @@ class Wallet {
   }
 
   createTransaction(recipient, amount, blockchain, transactionPool) {
-    this.balance = this.getBalance(blockchain);
-
+    this.balance = this.getBalance(blockchain);   
+    if (isNaN(amount))
+    {
+      console.log(`valor da transação inválido Valor: ${amount}`)
+      return {
+        message: `valor da transação inválido Valor: ${amount}`,
+      };
+    }
+    amount = Number(amount)
     if (amount > this.balance) {
       console.log(`Valor da transação excede o saldo da carteira. Saldo: ${this.balance}; Valor: ${amount}.`);
       return {
