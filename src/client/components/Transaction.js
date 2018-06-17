@@ -19,7 +19,8 @@ class Transaction extends Component {
       transactionError: '',
       transactionSuccess: '',
       loadingTransaction: false,
-      transactions: []
+      transactions: [],
+      loadingTransactionList: false
     };
 
     this.handleKeyChange = this.handleKeyChange.bind(this);
@@ -66,22 +67,22 @@ class Transaction extends Component {
     this.getTransactions();
   }
 
-getTransactions() {
+  getTransactions() {
+    this.setState({loadingTransactionList: true});
+    Promise.all([APIService.getTransactions()])
+    .then(([transactionsData]) => {
+        const transactions = transactionsData.message ? transactionsData.message : transactionsData;
+        this.setState({ transactions, loadingTransactionList: false });
+    });
 
-  Promise.all([APIService.getTransactions()])
-  .then(([transactionsData]) => {
-      const transactions = transactionsData.message ? transactionsData.message : transactionsData;
-      this.setState({ transactions });
-  });
+  }
 
-}
-
-toObject(arr) {
-  var rv = {};
-  for (var i = 0; i < arr.length; ++i)
-    rv[i] = arr[i];
-  return rv;
-}
+  toObject(arr) {
+    var rv = {};
+    for (var i = 0; i < arr.length; ++i)
+      rv[i] = arr[i];
+    return rv;
+  }
 
   render() {
     const {
@@ -91,7 +92,9 @@ toObject(arr) {
       transactionSuccess,
       loadingTransaction,
       transactions,
+      loadingTransactionList,
     } = this.state;
+
     var transactionList = new Array();
     var transactionIndex = 0;
     console.log("transactions: " + transactions);
@@ -204,7 +207,7 @@ var options = {
           <div className="column is-three-quarters">
             <h2 className="has-text-grey-dark is-size-4">Pool de transações</h2>
           </div>
-            <BootstrapTable keyField='id' 
+          <BootstrapTable keyField='id' 
                     data={ transactionList } 
                     options={options}
                     columns={ columns } 
@@ -213,6 +216,15 @@ var options = {
                     striped
                     ></BootstrapTable>  
 
+          <div className="column is-three-quarters">
+            <button
+              className={`button is-info ${loadingTransactionList ? 'is-loading' : ''}`}
+              disabled={loadingTransactionList}
+              onClick={this.getTransactions}
+            >
+              Atualizar
+            </button>
+          </div>
         </main>
       </section>
     );
