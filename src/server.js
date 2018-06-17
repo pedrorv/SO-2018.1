@@ -21,5 +21,5 @@ app.use(express.static(path.join(__dirname, '/dist/public')));
 app.use('/api', appRouter(p2p, miner));
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '/dist/index.html')));
 
-app.listen(HTTP_PORT, HOST, console.log(`Servidor http rodando na porta ${HTTP_PORT}`));
+app.listen(HTTP_PORT, console.log(`Servidor http rodando na porta ${HTTP_PORT}`));
 p2p.listen(P2P_PORT, HOST, console.log(`Servidor p2p rodando na porta ${P2P_PORT}`));
