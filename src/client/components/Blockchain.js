@@ -4,6 +4,8 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import APIService from '../services/api';
 
 
+
+
 class Blockchain extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,8 @@ class Blockchain extends Component {
     };
   }
 
+
+  
   componentDidMount() {
     this.loadData();
     this.mine = this.mine.bind(this);
@@ -57,6 +61,10 @@ class Blockchain extends Component {
     });
     this.loadData();
 }
+  
+changeclass(){
+    document.getElementById("blockchainTable").classList.add("is-striped")
+}
 
   render() {
     const { 
@@ -68,11 +76,9 @@ class Blockchain extends Component {
         miningSuccess,
         loadingMine,
     } = this.state;
-    var opt;
-    // const chain = [{hash:"absdadc", timestamp: 1529183427182, data: [0,1]}, {hash:"fesfd", timestamp: 1529183427182, data: [2,3]}];
+    
     if (chain != null){
-        chain.forEach(function(block, index){block.datetime = new Date(block.timestamp).toLocaleDateString() + ' ' + new Date(block.timestamp).toLocaleTimeString();
-            console.log(block.data); });
+        chain.forEach(function(block, index){block.datetime = new Date(block.timestamp).toLocaleDateString() + ' ' + new Date(block.timestamp).toLocaleTimeString(); });
     }
     const columns = [{
       dataField: 'hash',
@@ -90,13 +96,15 @@ class Blockchain extends Component {
         <section>
             <h1 className="has-text-grey-dark is-size-3">Blocos</h1>
             <main className="columns is-multiline" style={{paddingTop: 10}} >
-                <div className="column">
+                
                 <BootstrapTable keyField='hash' 
                     data={ chain?chain:[] } 
-                    columns={ columns }  
-                    options={{ noDataText: 'Erro' }}
-                    striped={true}/>  
-                </div>              
+                    columns={ columns } 
+                    is-striped={true}
+                    bordered={false}
+                    id={"blockchainTable"}
+                    striped></BootstrapTable>  
+                         
                 <div className="column is-three-quarters">
                 <button
                 className={`button is-info ${loadingMine ? 'is-loading' : ''}`}
@@ -113,3 +121,4 @@ class Blockchain extends Component {
 }
 
 export default Blockchain;
+

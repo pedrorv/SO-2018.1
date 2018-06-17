@@ -20,6 +20,7 @@
     "elliptic": "^6.4.0",
     "express": "^4.16.3",
     "react": "^16.4.1",
+    "react-bootstrap-table": "^4.3.1",
     "react-bootstrap-table-next": "^0.1.13",
     "react-bootstrap-table2-paginator": "^0.1.4",
     "react-dom": "^16.4.1",
@@ -33,6 +34,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "concurrently": "^3.5.1",
+    "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
@@ -40,6 +42,7 @@
     "eslint-plugin-react": "^7.9.1",
     "jest": "^22.4.3",
     "nodemon": "^1.17.5",
+    "style-loader": "^0.21.0",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.8"
   },

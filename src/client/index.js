@@ -4,6 +4,8 @@ import Header from './components/Header';
 import Wallet from './components/Wallet';
 import Transaction from './components/Transaction';
 import Blockchain from './components/Blockchain';
+import './CSS/bootstrap.min.css'
+import './CSS/style.css';
 
 const App = () => (
   <div>
