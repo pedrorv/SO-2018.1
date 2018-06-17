@@ -55,6 +55,7 @@ class Blockchain extends Component {
         });
       }
     });
+    this.loadData();
 }
 
   render() {
