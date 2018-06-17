@@ -28,14 +28,14 @@ class Wallet extends Component {
     return (
       <section>
         <h1 className="has-text-grey-dark is-size-3">Carteira</h1>
-        <main className="columns">
-          <div className="column is-half">
+        <main className="columns is-multiline">
+          <div className="column is-three-quarters">
             <h1 className="has-text-grey-dark is-size-4">Chave pública</h1>
             <h2 className="has-text-grey-grey is-size-5" style={{ wordWrap: 'break-word' }}>
               {loading ? 'Carregando sua chave...' : publicKey}
             </h2>
           </div>
-          <div className="column is-half">
+          <div className="column is-one-querter">
             <h1 className="has-text-grey-dark is-size-4">Saldo</h1>
             <h2 className="has-text-grey-grey is-size-5" style={{ wordWrap: 'break-word' }}>
               {loading ? 'Carregando seu saldo...' : balance}
