@@ -76,7 +76,8 @@ class Wallet {
     if (walletInputs.length) {
       const mostRecentInput = walletInputs.reduce((acc, cur) => (acc.input.timestamp > cur.input.timestamp ? acc : cur));
 
-      balance = mostRecentInput.outputs.find(o => o.address === this.publicKey).amount;
+      balance = mostRecentInput.outputs.reduce((sum, o) => (o.address === this.publicKey ? sum + o.amount : sum), 0);
+
       mostRecentTimestamp = mostRecentInput.input.timestamp;
     }
 
