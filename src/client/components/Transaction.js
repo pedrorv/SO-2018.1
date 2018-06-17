@@ -37,7 +37,7 @@ class Transaction extends Component {
     this.setState({ loadingTransaction: true, transactionError: '', transactionSuccess: '' });
     const { transactionKey, transactionAmount } = this.state;
 
-    APIService.makeTransaction(transactionKey, transactionAmount || 0).then((transfer) => {
+    APIService.makeTransaction(transactionKey, parseFloat(transactionAmount) || 0).then((transfer) => {
       const loadingTransaction = false;
 
       if (transfer.message) {
@@ -111,7 +111,7 @@ class Transaction extends Component {
               disabled={loadingTransaction || !transactionKey}
               onClick={this.makeTransaction}
             >
-              Transferir
+              Enviar
             </button>
           </div>
           {transactionSuccess && (
