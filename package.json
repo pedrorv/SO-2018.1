@@ -20,6 +20,8 @@
     "elliptic": "^6.4.0",
     "express": "^4.16.3",
     "react": "^16.4.1",
+    "react-bootstrap-table-next": "^0.1.13",
+    "react-bootstrap-table2-paginator": "^0.1.4",
     "react-dom": "^16.4.1",
     "uuid": "^3.2.1",
     "ws": "^5.2.0"
