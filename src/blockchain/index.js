@@ -6,9 +6,6 @@ class Blockchain {
     this.chain = [Block.genesis()];
   }
 
-  constructor(chain) {
-    this.chain = chain;
-  }
   addBlock(data) {
     const lastBlock = this.chain[this.chain.length - 1];
     const block = Block.mine(lastBlock, data);
@@ -24,7 +21,8 @@ class Blockchain {
 
   isChainValid(chain) {
     const listBlocks = chain.reduce((acc, block) => [...acc, ...block.hash], []);
-    const newBlockChain = new Blockchain(chain);
+    var newBlockChain = new Blockchain();
+    newBlockChain.chain = chain;
     return chain.every((block, index) => {
       if (index === 0) {
         return JSON.stringify(chain[0]) === JSON.stringify(Block.genesis());
