@@ -41,7 +41,7 @@ module.exports = (p2p, miner) => {
   });
 
   router.get('/saldo', (req, res) => {
-    res.json({ balance: wallet.getBalance(blockchain) });
+    res.json({ balance: blockchain.getBalance(wallet.publicKey) });
   });
 
   router.get('/minerar-transacoes', (req, res) => {

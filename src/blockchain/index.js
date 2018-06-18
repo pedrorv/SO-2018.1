@@ -27,18 +27,24 @@ class Blockchain {
       if (index === 0) {
         return JSON.stringify(chain[0]) === JSON.stringify(Block.genesis());
       }
-
       // validar as transações dentro da blockchain
       // verificar se bloco está na blockchain atual
       // se não estiver verificar os saldos dos inputs [utilizar metodo blockchain.getBalance(blockchain, currenttimestamp = new Date())]
       // e se soma dos inputs bate com a soma dos outputs
-      if (!listBlocks.includes(block.hash)) {
+      if (!listBlocks.includes(block.hash) && block.data.length > 0) {
         const transactions = block.data;
-        transactions.forEach((transaction) => {
-          if (
-            (transaction.input.amount !== newBlockChain.getBalance(transaction.input.address),
-            transaction.input.timestamp)
-          ) {
+        console.log("Transactions");
+        console.log(transactions);
+        const rewardsCount = transactions.filter((T) => T.isReward).length
+        if( rewardsCount != 1 ){
+          return false;
+        }
+        if (!transactions.forEach((transaction, indx) => {
+          if (transaction.input.amount !== newBlockChain.getBalance(transaction.input.address, transaction.input.timestamp) && !transaction.isReward) {
+            return false;
+          }
+          //valida transacao de reward
+          if (transaction.isReward && transaction.input.amount != MINING_REWARD){
             return false;
           }
           if (
@@ -46,7 +52,7 @@ class Blockchain {
           ) {
             return false;
           }
-        });
+        })){return false;}
       }
       const lastBlock = chain[index - 1];
       return block.lastHash === lastBlock.hash && block.hash === Block.getBlockHash(block);

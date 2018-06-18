@@ -6,6 +6,7 @@ class Transaction {
     this.id = genUniqueId();
     this.input = null;
     this.outputs = [];
+    this.isReward = false;
   }
 
   update(senderWallet, recipient, amount) {
@@ -57,8 +58,9 @@ class Transaction {
       amount: MINING_REWARD,
       address: minerWallet.publicKey,
     };
-
-    return this.getWithOutputs(rewardSystemWallet, [rewardOutput]);
+    const t = this.getWithOutputs(rewardSystemWallet, [rewardOutput]);
+    t.isReward = true;
+    return t;
   }
 
   static isTransactionValid(transaction) {
