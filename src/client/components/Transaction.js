@@ -21,6 +21,10 @@ class Transaction extends Component {
     this.getTransactions = this.getTransactions.bind(this);
   }
 
+  componentDidMount() {
+    this.getTransactions();
+  }
+
   handleKeyChange(event) {
     this.setState({
       transactionKey: event.target.value,

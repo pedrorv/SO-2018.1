@@ -22,19 +22,37 @@ module.exports = (p2p, miner) => {
     res.json(transaction || { message: 'Transação não encontrada.' });
   });
 
-  router.post('/transacao', (req, res) => {
-    const { recipient, amount } = req.body;
-    const transaction = wallet.createTransaction(recipient, amount, blockchain, transactionPool);
+  router.post(
+    '/transacao',
+    (req, res, next) => {
+      const { recipient, amount } = req.body;
 
-    if (transaction.message) {
-      res.json(transaction);
-      return;
-    }
+      if (!recipient) {
+        res.json({ message: 'Você deve passar um destinatário para a transação.' });
+        return;
+      }
 
-    p2p.broadcastTransaction(transaction);
+      if (!amount || Number.isNaN(amount) || amount < 0) {
+        res.json({ message: 'Você deve passar um número positivo para a quantia da transação.' });
+        return;
+      }
 
-    res.redirect('/transacoes');
-  });
+      next();
+    },
+    (req, res) => {
+      const { recipient, amount } = req.body;
+      const transaction = wallet.createTransaction(recipient, amount, blockchain, transactionPool);
+
+      if (transaction.message) {
+        res.json(transaction);
+        return;
+      }
+
+      p2p.broadcastTransaction(transaction);
+
+      res.redirect('/transacoes');
+    },
+  );
 
   router.get('/chave-publica', (req, res) => {
     res.json({ publicKey: wallet.publicKey });
