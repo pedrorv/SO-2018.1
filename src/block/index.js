@@ -51,11 +51,11 @@ class Block {
     let difficulty;
     let hash;
     let timestamp;
-    difficulty = Block.getBlockDifficulty(lastBlock, timestamp);
-    
+
     do {
       nonce += 1;
       timestamp = Date.now();
+      difficulty = Block.getBlockDifficulty(lastBlock, timestamp);
       hash = Block.hash(timestamp, lastHash, data, difficulty, nonce);
     } while (!Block.hashHasRightDifficulty(hash, difficulty));
 
@@ -69,7 +69,7 @@ class Block {
   static getBlockDifficulty(lastBlock, currentTime) {
     const { difficulty, timestamp } = lastBlock;
 
-    return timestamp + MINE_RATE > currentTime ? difficulty + 1 : (difficulty===1? 1 : difficulty - 1);
+    return timestamp + MINE_RATE > currentTime ? difficulty + 1 : difficulty - 1 || 1;
   }
 }
 
