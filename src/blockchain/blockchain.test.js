@@ -4,22 +4,19 @@ const Wallet = require('../wallet');
 const { INITIAL_BALANCE } = require('../constants');
 const TransactionPool = require('../transaction-pool');
 
-
-
 describe('Classe Blockchain', () => {
   let blockchain1;
   let blockchain2;
   let bc;
   let tp;
   const blockData1 = [];
-  const blockData2 = [];
+  const blockData2 = {};
 
   beforeEach(() => {
     blockchain1 = new Blockchain();
     blockchain2 = new Blockchain();
     bc = new Blockchain();
     tp = new TransactionPool();
-
   });
 
   describe('construtor', () => {
@@ -88,7 +85,6 @@ describe('Classe Blockchain', () => {
     });
   });
 
-
   describe('método getBalance', () => {
     let amount;
     let repeat;
@@ -131,11 +127,6 @@ describe('Classe Blockchain', () => {
       expect(bc.getBalance(wallet.publicKey)).toEqual(recipientBalance - recipientTransferAmount + senderTransferAmount);
     });
   });
-
 });
-
-
-
-
 
 const testBlockchainDataStructure = blockchain => Array.isArray(blockchain.chain);

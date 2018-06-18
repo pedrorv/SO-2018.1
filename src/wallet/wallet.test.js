@@ -1,7 +1,6 @@
 const Wallet = require('../wallet');
 const TransactionPool = require('../transaction-pool');
 const Blockchain = require('../blockchain');
-const { INITIAL_BALANCE } = require('../constants');
 
 describe('Classe Wallet', () => {
   let wallet;
@@ -45,7 +44,6 @@ describe('Classe Wallet', () => {
       ]);
     });
   });
-
 });
 
 const testWalletDataStructure = wallet =>

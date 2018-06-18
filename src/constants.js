@@ -14,4 +14,6 @@ module.exports = {
   MINE_RATE,
   INITIAL_BALANCE,
   MINING_REWARD,
+  SECOND,
+  MINUTE,
 };

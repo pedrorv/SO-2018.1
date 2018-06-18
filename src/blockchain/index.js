@@ -20,9 +20,8 @@ class Blockchain {
   }
 
   isChainValid(chain) {
-    const listBlocks = chain.reduce((acc, block) => [...acc, ...block.hash], []);
-    const newBlockChain = new Blockchain();
-    newBlockChain.chain = chain;
+    const listBlocks = chain.map(b => b.hash);
+
     return chain.every((block, index) => {
       if (index === 0) {
         return JSON.stringify(chain[0]) === JSON.stringify(Block.genesis());
@@ -33,27 +32,38 @@ class Blockchain {
       // e se soma dos inputs bate com a soma dos outputs
       if (!listBlocks.includes(block.hash) && block.data.length > 0) {
         const transactions = block.data;
-        console.log("Transactions");
+        console.log('Transactions');
         console.log(transactions);
-        const rewardsCount = transactions.filter((T) => T.isReward).length
-        if( rewardsCount != 1 ){
+        const rewardsCount = transactions.filter(t => t.isReward).length;
+
+        if (rewardsCount !== 1) {
           return false;
         }
-        if (!transactions.forEach((transaction, indx) => {
-          if (transaction.input.amount !== newBlockChain.getBalance(transaction.input.address, transaction.input.timestamp) && !transaction.isReward) {
-            return false;
-          }
-          //valida transacao de reward
-          if (transaction.isReward && transaction.input.amount != MINING_REWARD){
-            return false;
-          }
-          if (
-            transaction.input.amount != transaction.outputs.reduce((amt, o) => amt + o.amount, 0)
-          ) {
-            return false;
-          }
-        })){return false;}
+
+        if (
+          !transactions.reduce((acc, t) => {
+            if (
+              t.input.amount !== this.getBalance(t.input.address, t.input.timestamp) &&
+              !t.isReward
+            ) {
+              return acc && false;
+            }
+
+            if (t.isReward && t.input.amount !== MINING_REWARD) {
+              return acc && false;
+            }
+
+            if (t.input.amount !== t.outputs.reduce((sum, o) => sum + o.amount, 0)) {
+              return acc && false;
+            }
+
+            return acc && true;
+          }, true)
+        ) {
+          return false;
+        }
       }
+
       const lastBlock = chain[index - 1];
       return block.lastHash === lastBlock.hash && block.hash === Block.getBlockHash(block);
     });
@@ -64,7 +74,7 @@ class Blockchain {
       (acc, block) => acc + Math.pow(2, block.difficulty),
       0,
     );
-    const newChainDifficulty = this.chain.reduce(
+    const newChainDifficulty = newChain.reduce(
       (acc, block) => acc + Math.pow(2, block.difficulty),
       0,
     );
@@ -83,10 +93,10 @@ class Blockchain {
     this.chain = newChain;
   }
 
-  getBalance(address, currenttimestamp = new Date()) {
+  getBalance(address, currentTimestamp = new Date()) {
     let balance;
     const transactions = this.chain.reduce((acc, block) => [...acc, ...block.data], []);
-    const tempestiveTransactions = transactions.filter(t => t.input.timestamp < currenttimestamp);
+    const tempestiveTransactions = transactions.filter(t => t.input.timestamp < currentTimestamp);
     const walletInputs = transactions.filter(t => t.input.address === address);
     let mostRecentTimestamp = 0;
     balance = INITIAL_BALANCE;
