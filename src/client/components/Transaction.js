@@ -97,20 +97,12 @@ class Transaction extends Component {
 
     var transactionList = new Array();
     var transactionIndex = 0;
-    console.log("transactions: " + transactions);
-    console.log("typeof(transactions) " + typeof(transactions));
     if (transactions != null){
       transactions.forEach(function(transaction, index){
-        console.log(transaction.outputs[index]);
         for(var outputIndice = 0; outputIndice < transaction.outputs.length; outputIndice++){
-          console.log(transaction.input.address);
-          console.log(transaction.outputs[outputIndice].address);
-          
           if(transaction.input.address != transaction.outputs[outputIndice].address){
             transactionList.push(new Object);
             transactionList[transactionIndex].id = transaction.id;
-            console.log(" transactionList[transactionIndex].id")
-            console.log( transactionList[transactionIndex].id);
             transactionList[transactionIndex].from = transaction.input.address;
             transactionList[transactionIndex].to = transaction.outputs[outputIndice].address;
             transactionList[transactionIndex].amount = transaction.outputs[outputIndice].amount;
