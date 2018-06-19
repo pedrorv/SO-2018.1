@@ -32,42 +32,40 @@ Para execução da RioCoin é necessária a instalação dos seguintes programas
 
 Para correta instalação dos programas acima utilize os seguintes comandos:
 
-#entrar em modo duper usuário
-$sudo su
-$apt-get update
-#instala git
-$apt-get install git
-#instala node
-$apt-get install nodejs
-#instala npm
-$apt-get install npm
-#instala webpack
-$npm install --save-dev webpack
-#instala ufw (firewall)
-$apt-get install ufw
-#libera porta p2p do websocket
-$ufw allow 2316
-#caso use ssh
-$ufw allow ssh
-$ufw allow 22
-$ufw allow 2222
-#habilita firewall
-$ufw enable
-#sair do modo sudo
-$exit
+1. entrar em modo duper usuário
+* sudo su
+* apt-get update
+2. instala git
+* apt-get install git
+3. instala node
+* apt-get install nodejs
+4. instala npm
+* apt-get install npm
+5. instala webpack
+* npm install --save-dev webpack
+6. instala ufw (firewall)
+* apt-get install ufw
+7. libera porta p2p do websocket
+* ufw allow 2316
+8. caso use ssh
+* ufw allow ssh
+* ufw allow 22
+* ufw allow 2222
+9. habilita firewall
+* ufw enable
+10. sair do modo sudo
+* exit
 
 Para execução da RioCoin execute os seguintes comandos:
-#sair do modo sudo
-$exit
-#clona repositório
-$git clone https://github.com/pedrorv/SO-2018.1.git
-$cd SO-2018.1
-#importa referências do npm
-$npm install
-#exibe modos de execução
-$npm run
-#executa em modo de produção.
-$npm run production
+11. clona repositório
+* git clone https://github.com/pedrorv/SO-2018.1.git
+* cd SO-2018.1
+12. importa referências do npm
+* npm install
+13. exibe modos de execução
+* npm run
+14. executa em modo de produção.
+* npm run production
 
 Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116)
 
