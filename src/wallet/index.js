@@ -6,10 +6,10 @@ const { INITIAL_BALANCE, MINING_REWARD } = require('../constants');
 const KEY_PATH = './src/wallet/wallet.json';
 
 class Wallet {
-  constructor() {
+  constructor(isRewardWallet) {
     let privateKey;
 
-    if (isProduction() && fs.existsSync(KEY_PATH)) {
+    if (isProduction() && fs.existsSync(KEY_PATH) && !isRewardWallet) {
       privateKey = JSON.parse(fs.readFileSync(KEY_PATH)).key;
     }
 
@@ -17,7 +17,7 @@ class Wallet {
     this.keyPair = privateKey ? genKeyPairFromPrivate(privateKey) : genKeyPair();
     this.publicKey = this.keyPair.getPublic().encode('hex');
 
-    if (isProduction() && !privateKey) {
+    if (isProduction() && !privateKey && !isRewardWallet) {
       const wallet = JSON.stringify({ key: this.keyPair.getPrivate().toString(16) });
       fs.writeFileSync(KEY_PATH, wallet);
     }
@@ -70,7 +70,7 @@ class Wallet {
   }
 
   static rewardWallet() {
-    const rewardWallet = new Wallet();
+    const rewardWallet = new Wallet(true);
     rewardWallet.balance = MINING_REWARD;
 
     return rewardWallet;
