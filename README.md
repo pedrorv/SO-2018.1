@@ -63,7 +63,7 @@ Caso queira testar a criptomoeda, alguns outros comandos úteis:
 
 3.  Rodar três instâncias do servidor localmente para fazer testes de comunicação (consultar o package.json para ver portas utilizadas)
 
-- npm run development-network
+- npm run dev-network
 
 Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116)
 
