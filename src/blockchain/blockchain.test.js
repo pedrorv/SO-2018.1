@@ -105,11 +105,11 @@ describe('Classe Blockchain', () => {
     });
 
     it('deve calcular corretamente o saldo do destinatário após as transações', () => {
-      expect(bc.getBalance(wallet.privateKey)).toEqual(INITIAL_BALANCE + amount * repeat);
+      expect(bc.getBalance(wallet.publicKey)).toEqual(INITIAL_BALANCE + amount * repeat);
     });
 
     it('deve calcular corretamente o saldo do remetente após as transações', () => {
-      expect(bc.getBalance(wallet.privateKey)).toEqual(INITIAL_BALANCE - amount * repeat);
+      expect(bc.getBalance(senderWallet.publicKey)).toEqual(INITIAL_BALANCE - amount * repeat);
     });
 
     it('deve calcular corretamente após novas transações de ambos', () => {
