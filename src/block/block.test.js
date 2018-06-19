@@ -7,7 +7,7 @@ describe('Classe Block', () => {
   let block;
 
   beforeEach(() => {
-    data = 'Dados do bloco';
+    data = [];
     lastBlock = Block.genesis();
     block = Block.mine(lastBlock, data);
   });
@@ -52,7 +52,7 @@ const testBlockDataStructure = block =>
   typeof block.timestamp === 'number' &&
   typeof block.lastHash === 'string' &&
   typeof block.hash === 'string' &&
-  typeof block.data === 'string' &&
+  typeof block.data === 'object' &&
   typeof block.difficulty === 'number' &&
   typeof block.nonce === 'number';
 

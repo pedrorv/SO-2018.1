@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import APIService from '../services/api';
 import BootstrapTable from 'react-bootstrap-table-next';
 
-if (!Array.prototype.last){
-  Array.prototype.last = function(){
-    if(this.length= 0)
-      return this;
-      return this[this.length - 1];
-  };
-};
-
 class Transaction extends Component {
   constructor(props) {
     super(props);
@@ -20,13 +12,16 @@ class Transaction extends Component {
       transactionSuccess: '',
       loadingTransaction: false,
       transactions: [],
-      loadingTransactionList: false
+      loadingTransactionList: false,
     };
 
     this.handleKeyChange = this.handleKeyChange.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.makeTransaction = this.makeTransaction.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
+  }
+
+  componentDidMount() {
     this.getTransactions();
   }
 
@@ -36,7 +31,6 @@ class Transaction extends Component {
       transactionError: '',
       transactionSuccess: '',
     });
-    this.getTransactions();
   }
 
   handleAmountChange(event) {
@@ -45,7 +39,6 @@ class Transaction extends Component {
       transactionError: '',
       transactionSuccess: '',
     });
-    this.getTransactions();
   }
 
   makeTransaction() {
@@ -64,24 +57,18 @@ class Transaction extends Component {
         });
       }
     });
+
     this.getTransactions();
   }
 
   getTransactions() {
-    this.setState({loadingTransactionList: true});
-    Promise.all([APIService.getTransactions()])
-    .then(([transactionsData]) => {
-        const transactions = transactionsData.message ? transactionsData.message : transactionsData;
-        this.setState({ transactions, loadingTransactionList: false });
+    this.setState({ loadingTransactionList: true });
+
+    APIService.getTransactions().then((transactionsData) => {
+      const transactions = transactionsData.message ? transactionsData.message : transactionsData;
+
+      this.setState({ transactions, loadingTransactionList: false });
     });
-
-  }
-
-  toObject(arr) {
-    var rv = {};
-    for (var i = 0; i < arr.length; ++i)
-      rv[i] = arr[i];
-    return rv;
   }
 
   render() {
@@ -95,51 +82,39 @@ class Transaction extends Component {
       loadingTransactionList,
     } = this.state;
 
-    var transactionList = new Array();
-    var transactionIndex = 0;
-    console.log("transactions: " + transactions);
-    console.log("typeof(transactions) " + typeof(transactions));
-    if (transactions != null){
-      transactions.forEach(function(transaction, index){
-        console.log(transaction.outputs[index]);
-        for(var outputIndice = 0; outputIndice < transaction.outputs.length; outputIndice++){
-          console.log(transaction.input.address);
-          console.log(transaction.outputs[outputIndice].address);
-          
-          if(transaction.input.address != transaction.outputs[outputIndice].address){
-            transactionList.push(new Object);
-            transactionList[transactionIndex].id = transaction.id;
-            console.log(" transactionList[transactionIndex].id")
-            console.log( transactionList[transactionIndex].id);
-            transactionList[transactionIndex].from = transaction.input.address;
-            transactionList[transactionIndex].to = transaction.outputs[outputIndice].address;
-            transactionList[transactionIndex].amount = transaction.outputs[outputIndice].amount;
-            transactionIndex++;
-          }
-        };
+    const transactionList = transactions
+      .map(t =>
+        t.outputs.filter(o => o.address !== t.input.address).map(o => ({
+          id: t.id,
+          from: t.input.address,
+          to: o.address,
+          amount: o.amount,
+        })))
+      .reduce((acc, cur) => [...acc, ...cur], []);
 
-      });
-    }
-    const columns = [{
-      dataField: 'id',
-      text: 'ID'
-    }, {
-      dataField: 'from',
-      text: 'De'
-    }, {
-      dataField: 'to',
-      text: 'Para'
-    }, {
-      dataField: 'amount',
-      text: 'Valor'
-    }];
-    console.log("transactions");
-    console.log(transactions);
-    console.log("transactionList");
-console.log(transactionList);
-var options = {
-  noDataText: 'Your_custom_text'
-};
+    const columns = [
+      {
+        dataField: 'id',
+        text: 'ID',
+      },
+      {
+        dataField: 'from',
+        text: 'De',
+      },
+      {
+        dataField: 'to',
+        text: 'Para',
+      },
+      {
+        dataField: 'amount',
+        text: 'Valor',
+      },
+    ];
+
+    const options = {
+      noDataText: 'Your_custom_text',
+    };
+
     return (
       <section style={{ marginTop: '25px' }}>
         <h1 className="has-text-grey-dark is-size-3">Transações</h1>
@@ -207,14 +182,16 @@ var options = {
           <div className="column is-three-quarters">
             <h2 className="has-text-grey-dark is-size-4">Pool de transações</h2>
           </div>
-          <BootstrapTable keyField='id' 
-                    data={ transactionList } 
-                    options={options}
-                    columns={ columns } 
-                    bordered={false}
-                    id={"transactionsTable"}
-                    striped
-                    ></BootstrapTable>  
+
+          <BootstrapTable
+            keyField="id"
+            data={transactionList}
+            options={options}
+            columns={columns}
+            bordered={false}
+            id={'transactionsTable'}
+            striped
+          />
 
           <div className="column is-three-quarters">
             <button

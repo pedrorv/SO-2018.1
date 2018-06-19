@@ -1,0 +1,13 @@
+h1 {
+  color: rgb(175, 168, 155);
+  padding-top: 15px;
+}
+
+.react-bootstrap-table {
+  width: 100%;
+}
+
+.table td {
+  max-width: 100px;
+  word-break: break-all;
+}

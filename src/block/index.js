@@ -69,7 +69,7 @@ class Block {
   static getBlockDifficulty(lastBlock, currentTime) {
     const { difficulty, timestamp } = lastBlock;
 
-    return timestamp + MINE_RATE > currentTime ? difficulty + 1 : (difficulty===1? 1 : difficulty - 1);
+    return timestamp + MINE_RATE > currentTime ? difficulty + 1 : difficulty - 1 || 1;
   }
 }
 

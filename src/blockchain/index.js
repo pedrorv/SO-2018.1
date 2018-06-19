@@ -1,4 +1,5 @@
 const Block = require('../block');
+const { INITIAL_BALANCE, MINING_REWARD } = require('../constants');
 
 class Blockchain {
   constructor() {
@@ -19,22 +20,66 @@ class Blockchain {
   }
 
   isChainValid(chain) {
+    const listBlocks = chain.map(b => b.hash);
+
     return chain.every((block, index) => {
       if (index === 0) {
         return JSON.stringify(chain[0]) === JSON.stringify(Block.genesis());
       }
+      // validar as transações dentro da blockchain
+      // verificar se bloco está na blockchain atual
+      // se não estiver verificar os saldos dos inputs [utilizar metodo blockchain.getBalance(blockchain, currenttimestamp = new Date())]
+      // e se soma dos inputs bate com a soma dos outputs
+      if (!listBlocks.includes(block.hash) && block.data.length > 0) {
+        const transactions = block.data;
+        console.log('Transactions');
+        console.log(transactions);
+        const rewardsCount = transactions.filter(t => t.isReward).length;
+
+        if (rewardsCount !== 1) {
+          return false;
+        }
+
+        if (
+          !transactions.reduce((acc, t) => {
+            if (
+              t.input.amount !== this.getBalance(t.input.address, t.input.timestamp) &&
+              !t.isReward
+            ) {
+              return acc && false;
+            }
+
+            if (t.isReward && t.input.amount !== MINING_REWARD) {
+              return acc && false;
+            }
+
+            if (t.input.amount !== t.outputs.reduce((sum, o) => sum + o.amount, 0)) {
+              return acc && false;
+            }
+
+            return acc && true;
+          }, true)
+        ) {
+          return false;
+        }
+      }
 
       const lastBlock = chain[index - 1];
-
-      return (
-        block.lastHash === lastBlock.hash &&
-        block.hash === Block.getBlockHash(block)
-      );
+      return block.lastHash === lastBlock.hash && block.hash === Block.getBlockHash(block);
     });
   }
 
   replaceChain(newChain) {
-    if (newChain.length <= this.chain.length) {
+    const actualChainDifficulty = this.chain.reduce(
+      (acc, block) => acc + Math.pow(2, block.difficulty),
+      0,
+    );
+    const newChainDifficulty = newChain.reduce(
+      (acc, block) => acc + Math.pow(2, block.difficulty),
+      0,
+    );
+
+    if (newChainDifficulty <= actualChainDifficulty) {
       console.log('A nova blockchain não é maior que a blockchain atual.');
       return;
     }
@@ -46,6 +91,36 @@ class Blockchain {
 
     console.log('Substituindo a blockchain atual pela nova blockchain.');
     this.chain = newChain;
+  }
+
+  getBalance(address, currentTimestamp = new Date()) {
+    let balance;
+    const transactions = this.chain.reduce((acc, block) => [...acc, ...block.data], []);
+    const tempestiveTransactions = transactions.filter(t => t.input.timestamp < currentTimestamp);
+    const walletInputs = transactions.filter(t => t.input.address === address);
+    let mostRecentTimestamp = 0;
+    balance = INITIAL_BALANCE;
+
+    if (walletInputs.length) {
+      const mostRecentInput = walletInputs.reduce((acc, cur) => (acc.input.timestamp > cur.input.timestamp ? acc : cur));
+
+      balance = mostRecentInput.outputs.reduce(
+        (sum, o) => (o.address === address ? sum + o.amount : sum),
+        0,
+      );
+
+      mostRecentTimestamp = mostRecentInput.input.timestamp;
+    }
+
+    return tempestiveTransactions.reduce((acc, t) => {
+      if (t.input.timestamp > mostRecentTimestamp) {
+        return (
+          acc + t.outputs.reduce((sum, o) => (o.address === address ? sum + o.amount : sum), 0)
+        );
+      }
+
+      return acc;
+    }, balance);
   }
 }
 
