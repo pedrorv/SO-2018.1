@@ -20,7 +20,7 @@ class Block {
       Hash:           ${this.hash}
       Dificuldade:    ${this.difficulty}
       Nonce:          ${this.nonce}
-      Dados:          ${this.data}
+      Dados:          ${JSON.stringify(this.data, null, 2)}
     `;
   }
 
