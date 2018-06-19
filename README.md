@@ -72,3 +72,5 @@ Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116
 ## Licença
 RioCoin is [MIT licensed](https://github.com/facebook/react/blob/master/LICENSE)
 
+* [Heitor Tomaz](https://github.com/heitortomaz)
+* [Pedro Reis](https://github.com/pedrorv)
