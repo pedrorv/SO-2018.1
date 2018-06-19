@@ -26,14 +26,9 @@ class Blockchain {
       if (index === 0) {
         return JSON.stringify(chain[0]) === JSON.stringify(Block.genesis());
       }
-      // validar as transações dentro da blockchain
-      // verificar se bloco está na blockchain atual
-      // se não estiver verificar os saldos dos inputs [utilizar metodo blockchain.getBalance(blockchain, currenttimestamp = new Date())]
-      // e se soma dos inputs bate com a soma dos outputs
+
       if (!listBlocks.includes(block.hash) && block.data.length > 0) {
         const transactions = block.data;
-        console.log('Transactions');
-        console.log(transactions);
         const rewardsCount = transactions.filter(t => t.isReward).length;
 
         if (rewardsCount !== 1) {
