@@ -1,6 +1,12 @@
 const WS = require('ws');
+const fs = require('fs');
+const { isProduction } = require('./utilities');
 
-const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
+const peers = process.env.PEERS
+  ? process.env.PEERS.split(',')
+  : !isProduction()
+    ? []
+    : JSON.parse(fs.readFileSync('./src/nodes.json')).map(n => `ws://${n}:${process.env.P2P_PORT}`);
 
 const MESSAGES = {
   SYNC_CHAINS: 'SYNC_CHAINS',
@@ -31,6 +37,7 @@ class P2PServer {
     const server = new WS.Server({ port, host }, callback);
 
     server.on('connection', socket => this.connectSocket(socket));
+    server.on('error', console.log);
     this.connectToPeers();
   }
 
