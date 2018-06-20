@@ -5,6 +5,7 @@ const MESSAGES = {
   SYNC_CHAINS: 'SYNC_CHAINS',
   BROADCAST_TRANSACTION: 'BROADCAST_TRANSACTION',
   CLEAR_TRANSACTIONS: 'CLEAR_TRANSACTIONS',
+  BROADCAST_PEERS: 'BROADCAST_PEERS',
 };
 
 const syncChainsMessage = data => ({
@@ -18,6 +19,11 @@ const broadcastTransactionMessage = data => ({
 });
 
 const broadcastClearTransactionsMessage = () => ({ type: MESSAGES.CLEAR_TRANSACTIONS });
+
+const broadcastPeersMessage = () => ({
+  type: MESSAGES.BROADCAST_PEERS,
+  data: Peers.getAll(),
+});
 
 class P2PServer {
   constructor(blockchain, transactionPool) {
@@ -33,7 +39,9 @@ class P2PServer {
       this.connectSocket(socket);
       const socketIP = req.connection.remoteAddress;
       Peers.store(socketIP);
+      this.broadcastPeers();
     });
+
     this.connectToPeers();
   }
 
@@ -81,6 +89,8 @@ class P2PServer {
           return this.transactionPool.addOrUpdateTransaction(data);
         case MESSAGES.CLEAR_TRANSACTIONS:
           return this.transactionPool.clear();
+        case MESSAGES.BROADCAST_PEERS:
+          return Peers.storeAll(data);
         default:
           return null;
       }
@@ -110,6 +120,10 @@ class P2PServer {
   broadcastClearTransactions() {
     this.sockets.forEach(socket =>
       this.dispatchMessage(socket, broadcastClearTransactionsMessage()));
+  }
+
+  broadcastPeers() {
+    this.sockets.forEach(socket => this.dispatchMessage(socket, broadcastPeersMessage()));
   }
 }
 

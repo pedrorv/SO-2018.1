@@ -20,13 +20,17 @@ class Peers {
     const shouldStorePeer = !this.peers.find(p => p === peer) && peer !== '::1';
 
     if (shouldStorePeer) {
-      savePeers([...this.peers, peer]);
+      const newPeers = [...this.peers, peer];
+      this.peers = newPeers;
+
+      savePeers(newPeers);
       console.log(`Lista de nós conhecidos foi atualizada. Novo nó: ${peer}.`);
     }
   }
 
   storeAll(peersList) {
     const newPeers = [...new Set([...peersList, ...this.peers])];
+    this.peers = newPeers;
 
     savePeers(newPeers);
     console.log('Lista de nós conhecidos foi atualizada.');
