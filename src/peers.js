@@ -17,7 +17,6 @@ class Peers {
   }
 
   store(peer) {
-    console.log(peer);
     const shouldStorePeer = !this.peers.find(p => p === peer) && peer !== '::1';
 
     if (shouldStorePeer) {
