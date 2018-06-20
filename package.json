@@ -8,8 +8,8 @@
     "development": "concurrently \"webpack --mode development --watch\" \"npm run dev1\"",
     "dev-network": "webpack --mode development && concurrently \"npm run dev1\" \"npm run dev2\" \"npm run dev3\"",
     "dev1": "nodemon ./src/server.js",
-    "dev2": "HTTP_PORT=5001 P2P_PORT=6001 PEERS=ws://localhost:6000 npm run dev",
-    "dev3": "HTTP_PORT=5002 P2P_PORT=6002 PEERS=ws://localhost:6000,ws://localhost:6001 npm run dev",
+    "dev2": "HTTP_PORT=5001 P2P_PORT=6001 PEERS=ws://localhost:6000 npm run dev1",
+    "dev3": "HTTP_PORT=5002 P2P_PORT=6002 PEERS=ws://localhost:6000,ws://localhost:6001 npm run dev1",
     "test": "jest --watchAll"
   },
   "license": "MIT",
