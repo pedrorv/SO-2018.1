@@ -9,11 +9,11 @@ class Peers {
       ? process.env.PEERS.split(',')
       : !isProduction()
         ? []
-        : JSON.parse(fs.readFileSync(PEERS_PATH)).map(n => `ws://${n}:${process.env.P2P_PORT}`);
+        : JSON.parse(fs.readFileSync(PEERS_PATH));
   }
 
   getAll() {
-    return this.peers;
+    return this.peers.map(peerIp => `ws://${peerIp}:${process.env.P2P_PORT}`);
   }
 
   store(peer) {
