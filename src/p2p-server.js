@@ -57,9 +57,9 @@ class P2PServer {
       socket.on('open', () => this.connectSocket(socket));
       socket.on('error', () => {
         const retryString =
-          tries === 4
+          tries === 3
             ? `Nó ${peer} possivelmente fora do ar.`
-            : 'Tentando novamente em 3 segundos...';
+            : `Tentando novamente em ${3*tries} segundos...`;
 
         console.log(`Erro ao conectar à ${peer}. Tentativa: ${tries + 1}.`, retryString);
         this.connectPeer(peer, tries + 1);
