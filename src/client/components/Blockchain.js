@@ -63,7 +63,7 @@ class Blockchain extends Component {
 
     if (chain != null) {
       chain.forEach((block) => {
-        block.datetime = `${new Date(block.timestamp).toLocaleDateString()}`;
+        block.datetime = `${new Date(block.timestamp).toLocaleDateString()}` + ' ' + `${new Date(block.timestamp).toLocaleTimeString('it-IT')}` ;
       });
     }
 
