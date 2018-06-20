@@ -31,7 +31,7 @@ Ao ser executada, a aplicação da RioCoin servirá um Front-end simples feito e
 Para execução da RioCoin é necessária a instalação dos seguintes programas:
 
 - [Git](https://git-scm.com/) – Versionador de código.
-- [NodeJS](https://nodejs.org/en/) – Interpretador de código JavaScript.
+- [NodeJS](https://nodejs.org/en/) – Interpretador de código JavaScript - instalar a versão 8 LTS.
 - [npm](https://www.npmjs.com/) – Gerenciador de pacotes do NodeJS.
 
 Além de instalar os programas é necessário abrir a porta 2316 do seu roteador. Uma explicação do processo pode ser vista [neste link](https://bitcoin.org/en/full-node#configuring-dhcp).
@@ -72,6 +72,8 @@ Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116
 [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)
 [Writing a simple blockchain with Elixir](https://sheharyar.me/blog/writing-blockchain-elixir/)
 [Creating your first blockchain with Java](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa)
+[A blockchain in 200 lines of code](https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54)
+[Naivecoin](https://lhartikk.github.io/)
 
 ## Licença
 
