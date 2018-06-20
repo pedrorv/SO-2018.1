@@ -1,12 +1,5 @@
 const WS = require('ws');
-const fs = require('fs');
-const { isProduction } = require('./utilities');
-
-const peers = process.env.PEERS
-  ? process.env.PEERS.split(',')
-  : !isProduction()
-    ? []
-    : JSON.parse(fs.readFileSync('./src/nodes.json')).map(n => `ws://${n}:${process.env.P2P_PORT}`);
+const Peers = require('./peers');
 
 const MESSAGES = {
   SYNC_CHAINS: 'SYNC_CHAINS',
@@ -38,14 +31,14 @@ class P2PServer {
 
     server.on('connection', (socket, req) => {
       this.connectSocket(socket);
-      console.log(socket._socket.address());
-      console.log(req.connection.remoteAddress);
+      const socketIP = req.connection.remoteAddress;
+      Peers.store(socketIP);
     });
     this.connectToPeers();
   }
 
   connectToPeers() {
-    peers.forEach(peer => this.connectPeer(peer));
+    Peers.getAll().forEach(peer => this.connectPeer(peer));
   }
 
   connectPeer(peer, tries = 0) {
