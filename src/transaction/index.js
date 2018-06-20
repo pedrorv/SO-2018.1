@@ -9,8 +9,8 @@ class Transaction {
     this.isReward = false;
   }
 
-  update(senderWallet, recipient, amount) {
-    const senderOutput = this.outputs.find(o => o.address === senderWallet.publicKey);
+  static update(transaction, senderWallet, recipient, amount) {
+    const senderOutput = transaction.outputs.find(o => o.address === senderWallet.publicKey);
 
     if (amount > senderOutput.amount) {
       console.log(`Valor da transação excede o saldo da carteira. Saldo: ${
@@ -21,10 +21,10 @@ class Transaction {
 
     senderOutput.amount -= amount;
     const recipientOutput = { amount, address: recipient };
-    this.outputs.push(recipientOutput);
-    Transaction.sign(this, senderWallet);
+    transaction.outputs.push(recipientOutput);
+    Transaction.sign(transaction, senderWallet);
 
-    return this;
+    return transaction;
   }
 
   static create(senderWallet, recipient, amount) {

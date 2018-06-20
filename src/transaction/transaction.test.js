@@ -62,7 +62,7 @@ describe('Classe Transaction', () => {
       transaction = Transaction.create(wallet, recipient, amount);
       nextAmount = amount * 2;
       nextRecipient = `próximo ${recipient}`;
-      transaction = transaction.update(wallet, nextRecipient, nextAmount);
+      transaction = Transaction.update(transaction, wallet, nextRecipient, nextAmount);
     });
 
     it('atualiza a saída da transação subtraindo a próxima quantia da carteira criadora da transação', () => {

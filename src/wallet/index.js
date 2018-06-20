@@ -60,7 +60,7 @@ class Wallet {
     let transaction = transactionPool.findTransactionByAddress(this.publicKey);
 
     if (transaction) {
-      transaction.update(this, recipient, amount);
+      Transaction.update(transaction, this, recipient, amount);
     } else {
       transaction = Transaction.create(this, recipient, amount);
       transactionPool.addOrUpdateTransaction(transaction);

@@ -1,4 +1,5 @@
 const TransactionPool = require('../transaction-pool');
+const Transaction = require('../transaction');
 const Wallet = require('../wallet');
 const Blockchain = require('../blockchain');
 
@@ -35,7 +36,7 @@ describe('Classe TransactionPool', () => {
 
     it('atualiza uma transação já existente na transaction pool', () => {
       const oldTransaction = JSON.stringify(transaction);
-      const newTransaction = transaction.update(wallet, nextRecipient, nextAmount);
+      const newTransaction = Transaction.update(transaction, wallet, nextRecipient, nextAmount);
       tp.addOrUpdateTransaction(newTransaction);
 
       expect(JSON.stringify(tp.transactions.find(t => t.id === newTransaction.id))).not.toEqual(oldTransaction);
