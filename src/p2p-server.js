@@ -36,7 +36,11 @@ class P2PServer {
   listen(port, host, callback) {
     const server = new WS.Server({ port, host }, callback);
 
-    server.on('connection', socket => this.connectSocket(socket));
+    server.on('connection', (socket, req) => {
+      this.connectSocket(socket);
+      console.log(socket._socket.address());
+      console.log(req.connection.remoteAddress);
+    });
     this.connectToPeers();
   }
 
