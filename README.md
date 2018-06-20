@@ -69,11 +69,11 @@ Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116
 
 ## Referências
 
-[Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)
-[Writing a simple blockchain with Elixir](https://sheharyar.me/blog/writing-blockchain-elixir/)
-[Creating your first blockchain with Java](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa)
+[Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)  
+[Writing a simple blockchain with Elixir](https://sheharyar.me/blog/writing-blockchain-elixir/)  
+[Creating your first blockchain with Java](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa)  
 [A blockchain in 200 lines of code](https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54)
-[Naivecoin](https://lhartikk.github.io/)
+[Naivecoin](https://lhartikk.github.io/)  
 
 ## Feito por
 
