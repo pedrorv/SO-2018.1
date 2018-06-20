@@ -20,10 +20,21 @@ class Peers {
     const shouldStorePeer = !this.peers.find(p => p === peer) && peer !== '::1';
 
     if (shouldStorePeer) {
-      fs.writeFileSync(PEERS_PATH, JSON.stringify([...this.peers, peer]));
-      console.log('Lista de nós conhecidos foi atualizada.');
+      savePeers([...this.peers, peer]);
+      console.log(`Lista de nós conhecidos foi atualizada. Novo nó: ${peer}.`);
     }
   }
+
+  storeAll(peersList) {
+    const newPeers = [...new Set([...peersList, ...this.peers])];
+
+    savePeers(newPeers);
+    console.log('Lista de nós conhecidos foi atualizada.');
+  }
 }
+
+const savePeers = (peersList) => {
+  fs.writeFileSync(PEERS_PATH, JSON.stringify(peersList));
+};
 
 module.exports = new Peers();
