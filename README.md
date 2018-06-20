@@ -75,7 +75,7 @@ Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116
 [A blockchain in 200 lines of code](https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54)
 [Naivecoin](https://lhartikk.github.io/)
 
-## Licença
+## Feito por
 
 - [Heitor Tomaz](https://github.com/heitortomaz)
 - [Pedro Reis](https://github.com/pedrorv)
