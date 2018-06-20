@@ -36,14 +36,14 @@ class APIService {
   }
 
   getTransaction(transactionID) {
-    return this.call('/transacoes', 'GET', transactionID, { timeout: 10 * SECOND })
+    return this.call('transacoes', 'GET', transactionID, { timeout: 10 * SECOND })
       .then(res => res.data)
       .catch(() =>
         Promise.resolve({ message: 'Ocorreu um erro inesperado ao carregar a transação.' }));
   }
 
   getTransactions() {
-    return this.call('/transacoes', 'GET', null, { timeout: 3 * SECOND })
+    return this.call('transacoes', 'GET', null, { timeout: 3 * SECOND })
       .then(res => res.data)
       .catch(() =>
         Promise.resolve({
@@ -52,13 +52,13 @@ class APIService {
   }
 
   mine() {
-    return this.call('/minerar-transacoes', 'GET', null, { timeout: 5 * MINUTE })
+    return this.call('minerar-transacoes', 'GET', null, { timeout: 5 * MINUTE })
       .then(res => res.data)
       .catch(() => Promise.resolve({ message: 'Ocorreu um erro inesperado ao minerar o bloco.' }));
   }
 
   getBlockchain() {
-    return this.call('/blocos', 'GET', null, { timeout: 15 * MINUTE })
+    return this.call('blocos', 'GET', null, { timeout: 15 * MINUTE })
       .then(res => res.data)
       .catch(() => Promise.resolve({ message: 'Ocorreu um erro inesperado ao minerar o bloco.' }));
   }

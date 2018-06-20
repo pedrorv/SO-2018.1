@@ -1,19 +1,36 @@
+const fs = require('fs');
 const Block = require('../block');
-const { INITIAL_BALANCE, MINING_REWARD } = require('../constants');
+const { INITIAL_BALANCE, MINING_REWARD, BACKUP_CHAIN_FREQUENCY } = require('../constants');
+const { isProduction } = require('../utilities');
+
+const BLOCKCHAIN_PATH = './src/blockchain/blockchain.json';
+
+const saveChain = (chain) => {
+  fs.writeFileSync(BLOCKCHAIN_PATH, JSON.stringify(chain));
+};
+
+const loadChain = () => JSON.parse(fs.readFileSync(BLOCKCHAIN_PATH));
 
 class Blockchain {
   constructor() {
-    this.chain = [Block.genesis()];
+    const shouldLoadChain = isProduction() && fs.existsSync(BLOCKCHAIN_PATH);
+
+    this.chain = shouldLoadChain ? loadChain() : [Block.genesis()];
   }
 
   addBlock(data) {
     const lastBlock = this.chain[this.chain.length - 1];
+
     const block = Block.mine(lastBlock, data);
     this.chain.push(block);
 
+    if (this.chain.length % BACKUP_CHAIN_FREQUENCY === 0) {
+      saveChain(this.chain);
+    }
+
     console.log(`
-    Bloco adicionado:
-    ${block.toString()}
+      Bloco adicionado:
+      ${block.toString()}
     `);
 
     return block;
