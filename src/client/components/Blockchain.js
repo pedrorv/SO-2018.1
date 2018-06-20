@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
 import APIService from '../services/api';
 
 class Blockchain extends Component {
@@ -28,7 +27,7 @@ class Blockchain extends Component {
     APIService.getBlockchain().then((blockchainData) => {
       this.setState({
         loadingChain: false,
-        chain: blockchainData.message ? null : blockchainData,
+        chain: blockchainData.message ? [] : blockchainData,
         chainError: blockchainData.message || '',
       });
     });
@@ -61,14 +60,16 @@ class Blockchain extends Component {
   render() {
     const { chain, loadingMine } = this.state;
     const chainLimited = chain.slice(Math.max(chain.length - 12, 0));
-    if (chain != null) {
-      
-      chainLimited.forEach((block) => {
-        block.datetime = `${new Date(block.timestamp).toLocaleDateString()}` + ' ' + `${new Date(block.timestamp).toLocaleTimeString('it-IT')}` ;
-      });
 
+    if (chain != null) {
+      chainLimited.forEach((block) => {
+        block.datetime =
+          `${new Date(block.timestamp).toLocaleDateString()}` +
+          ' ' +
+          `${new Date(block.timestamp).toLocaleTimeString('it-IT')}`;
+      });
     }
-    
+
     const columns = [
       {
         dataField: 'hash',
