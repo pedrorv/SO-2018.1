@@ -59,7 +59,7 @@ class P2PServer {
         const retryString =
           tries === 3
             ? `Nó ${peer} possivelmente fora do ar.`
-            : `Tentando novamente em ${3*tries} segundos...`;
+            : `Tentando novamente em ${3*(tries+1)} segundos...`;
 
         console.log(`Erro ao conectar à ${peer}. Tentativa: ${tries + 1}.`, retryString);
         this.connectPeer(peer, tries + 1);
