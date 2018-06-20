@@ -7,6 +7,7 @@ const BLOCKCHAIN_PATH = './src/blockchain/blockchain.json';
 
 const saveChain = (chain) => {
   fs.writeFileSync(BLOCKCHAIN_PATH, JSON.stringify(chain));
+  console.log('Backup da blockchain concluído com sucesso');
 };
 
 const loadChain = () => JSON.parse(fs.readFileSync(BLOCKCHAIN_PATH));
@@ -18,20 +19,24 @@ class Blockchain {
     this.chain = shouldLoadChain ? loadChain() : [Block.genesis()];
   }
 
+  backupChain() {
+    if (this.chain.length % BACKUP_CHAIN_FREQUENCY === 0) {
+      saveChain(this.chain);
+    }
+  }
+
   addBlock(data) {
     const lastBlock = this.chain[this.chain.length - 1];
 
     const block = Block.mine(lastBlock, data);
     this.chain.push(block);
 
-    if (this.chain.length % BACKUP_CHAIN_FREQUENCY === 0) {
-      saveChain(this.chain);
-    }
-
     console.log(`
       Bloco adicionado:
       ${block.toString()}
     `);
+
+    this.backupChain();
 
     return block;
   }
@@ -103,6 +108,8 @@ class Blockchain {
 
     console.log('Substituindo a blockchain atual pela nova blockchain.');
     this.chain = newChain;
+
+    this.backupChain();
   }
 
   getBalance(address, currentTimestamp = new Date()) {
