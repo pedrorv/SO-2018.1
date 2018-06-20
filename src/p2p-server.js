@@ -50,19 +50,24 @@ class P2PServer {
   }
 
   connectPeer(peer, tries = 0) {
-    if (tries >= 5) return;
+    const MAX_TRIES = 5;
+
+    if (tries >= MAX_TRIES) return;
+
+    const currentTry = tries + 1;
+    const isLastTry = MAX_TRIES - 1;
 
     setTimeout(() => {
       const socket = new WS(peer);
       socket.on('open', () => this.connectSocket(socket));
       socket.on('error', () => {
         const retryString =
-          tries === 3
+          tries === isLastTry
             ? `Nó ${peer} possivelmente fora do ar.`
-            : `Tentando novamente em ${3 * (tries + 1)} segundos...`;
+            : `Tentando novamente em ${3 * currentTry} segundos...`;
 
-        console.log(`Erro ao conectar à ${peer}. Tentativa: ${tries + 1}.`, retryString);
-        this.connectPeer(peer, tries + 1);
+        console.log(`Erro ao conectar à ${peer}. Tentativa: ${currentTry}.`, retryString);
+        this.connectPeer(peer, currentTry);
       });
       socket.on('close', () => this.removeConnection(socket));
     }, 3000 * tries);
