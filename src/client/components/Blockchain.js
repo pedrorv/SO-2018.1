@@ -8,7 +8,7 @@ class Blockchain extends Component {
     super(props);
 
     this.state = {
-      chain: null,
+      chain: [],
       chainError: '',
       loadingChain: false,
       miningError: '',
@@ -60,13 +60,15 @@ class Blockchain extends Component {
 
   render() {
     const { chain, loadingMine } = this.state;
-
+    const chainLimited = chain.slice(Math.max(chain.length - 12, 0));
     if (chain != null) {
-      chain.forEach((block) => {
+      
+      chainLimited.forEach((block) => {
         block.datetime = `${new Date(block.timestamp).toLocaleDateString()}` + ' ' + `${new Date(block.timestamp).toLocaleTimeString('it-IT')}` ;
       });
-    }
 
+    }
+    
     const columns = [
       {
         dataField: 'hash',
@@ -88,7 +90,7 @@ class Blockchain extends Component {
         <main className="columns is-multiline" style={{ paddingTop: 10 }}>
           <BootstrapTable
             keyField="hash"
-            data={chain || []}
+            data={chainLimited || []}
             columns={columns}
             is-striped={true}
             bordered={false}
