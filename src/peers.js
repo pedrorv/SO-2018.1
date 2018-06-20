@@ -13,7 +13,11 @@ class Peers {
   }
 
   getAll() {
-    return this.peers.map(peerIp => `ws://${peerIp}:${process.env.P2P_PORT}`);
+    return this.peers;
+  }
+
+  getAllHosts() {
+    return this.getAll().map(peerIp => `ws://${peerIp}:${process.env.P2P_PORT}`);
   }
 
   store(peer) {

@@ -46,7 +46,7 @@ class P2PServer {
   }
 
   connectToPeers() {
-    Peers.getAll().forEach(peer => this.connectPeer(peer));
+    Peers.getAllHosts().forEach(peer => this.connectPeer(peer));
   }
 
   connectPeer(peer, tries = 0) {
