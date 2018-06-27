@@ -5,7 +5,7 @@ O projeto foi desenvolvido em JavaScript para ser executado com NodeJS. Este é 
 
 ## Documentação
 
-Ao ser executada, a aplicação da RioCoin servirá um Front-end simples feito em React e um Back-end por onde fará a comunicação com os outros nós da rede. Para tal atenderá às requisições através de duas portas, uma onde para receber requisições HTTP, que devem ser feitas localmente, e outra por onde trafegarão mensagens por WebSockets que conectam um nó aos outros nós da rede. No ambiente de produção essas portas são 1116 e 2316 respectivamente.
+Ao ser executada, a aplicação da RIOCoin servirá um Front-end simples feito em React e um Back-end por onde fará a comunicação com os outros nós da rede. Para tal atenderá às requisições através de duas portas, uma onde para receber requisições HTTP, que devem ser feitas localmente, e outra por onde trafegarão mensagens por WebSockets que conectam um nó aos outros nós da rede. No ambiente de produção essas portas são 1116 e 2316 respectivamente.
 
 - Front-end tem as seguintes funcionalidades:
 
@@ -28,7 +28,7 @@ Ao ser executada, a aplicação da RioCoin servirá um Front-end simples feito e
 
 ## Instalação
 
-Para execução da RioCoin é necessária a instalação dos seguintes programas:
+Para execução da RIOCoin é necessária a instalação dos seguintes programas:
 
 - [Git](https://git-scm.com/) – Versionador de código.
 - [NodeJS](https://nodejs.org/en/) – Interpretador de código JavaScript - instalar a versão 8 LTS.
@@ -36,7 +36,7 @@ Para execução da RioCoin é necessária a instalação dos seguintes programas
 
 Além de instalar os programas é necessário abrir a porta 2316 do seu roteador. Uma explicação do processo pode ser vista [neste link](https://bitcoin.org/en/full-node#configuring-dhcp).
 
-Para execução da RioCoin é necessário executar os seguintes comandos no terminal:
+Para execução da RIOCoin é necessário executar os seguintes comandos no terminal:
 
 1.  Clonar o repositório
 
