@@ -1,6 +1,6 @@
-# [RioCoin](https://github.com/pedrorv/SO-2018.1)
+# [RIOCoin](https://github.com/pedrorv/SO-2018.1)
 
-RioCoin é a implementação de uma blockchain simples com uma criptomoeda e suporte para transações entre carteiras.
+RIOCoin é a implementação de uma blockchain simples com uma criptomoeda e suporte para transações entre carteiras.
 O projeto foi desenvolvido em JavaScript para ser executado com NodeJS. Este é um trabalho para a disciplina de Sistemas Operacionais do DEL/UFRJ. O objetivo é a implementação de um Sistema Distribuído.
 
 ## Documentação
@@ -79,3 +79,7 @@ Para visualizar a carteira acesse: [http://localhost:1116](http://localhost:1116
 
 - [Heitor Tomaz](https://github.com/heitortomaz)
 - [Pedro Reis](https://github.com/pedrorv)
+
+## Observação
+
+A RIOCoin é só uma prova de conceito e não tem nenhuma relação com a [Riocoin](http://riocoin.org/).
